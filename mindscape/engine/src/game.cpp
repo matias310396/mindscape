@@ -90,15 +90,17 @@ void Game::run(){
   inf.y = 0;
   inf.width = 108;
   inf.height = 140;
-  std::pair<int,int> pos; pos.first =240;pos.second = 350;
+  std::pair<int,int> pos; pos.first =240;pos.second = 100;
+
+  bool jumping = false;
 
   if(load_media()){
     bool quit_event = false;
 
-    SDL_Event e; 
+    SDL_Event e;
     SDL_Rect ret; SDL_Rect* rt = &ret;
     SDL_Rect ret_2; SDL_Rect* rt_2 = &ret_2;
-  
+
     ret.x = 0; ret.y = 0; ret.w = 108; ret.h = 140;
     ret_2.x = 0; ret_2.y = 0; ret_2.w = 800; ret_2.h = 600;
 
@@ -110,7 +112,7 @@ void Game::run(){
       }
       const Uint8* currentKeyStates = SDL_GetKeyboardState( NULL );
       if( currentKeyStates[ SDL_SCANCODE_LEFT ] ){
-        
+
         right_cont++;
         if(right_cont == 5){
           if(ret.y == 0) ret.y = 140;
@@ -131,9 +133,29 @@ void Game::run(){
           left_cont = 0;
 
           pos.first += 20;
-          if(pos.first > 700) pos.first = 0;   
+          if(pos.first > 700) pos.first = 0;
+        }
+      } else if(currentKeyStates[SDL_SCANCODE_UP] && !jumping){
+        if(pos.second >= 250){
+          jumping = true;
         }
       }
+
+      //jumping
+      if(jumping && pos.second >= 250){
+          pos.second -= 20;
+          //std::cout << "subiu" << std::endl;
+      } else {
+        jumping = false;
+      }
+
+      //gravity
+      if(pos.second < 350){
+        pos.second += 10;
+      }
+
+
+
 
       SDL_SetRenderDrawColor(renderer,0xFF, 0xFF, 0xFF, 0xFF);
       SDL_RenderClear(renderer);
