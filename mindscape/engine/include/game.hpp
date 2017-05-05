@@ -12,7 +12,7 @@ namespace engine{
       std::pair<int,int> window_dimensions;
       SDL_Window* window;
       SDL_Renderer* renderer;
-      Image* images[3];
+      Image* images[5];
 
       Game(){};
       ~Game(){};
