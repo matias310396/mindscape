@@ -50,6 +50,7 @@ bool Game::load_media(){
   bool success_on_load = true;
   std::string path_1 = "../assets/images/scott.png";
   std::string path_2 = "../assets/images/background.png";
+  std::string path_3 = "../assets/images/attack.png";
 
   if(!images[1]->load(path_1.c_str())){
     printf("Failed to load media at %s\n",path_1.c_str());
@@ -61,6 +62,11 @@ bool Game::load_media(){
     success_on_load = false;
   }
 
+  if(!images[3]->load(path_3.c_str())){
+    printf("Failed to load media at %s\n",path_3.c_str());
+    success_on_load = false;
+  }
+
   return success_on_load;
 }
 
@@ -68,6 +74,7 @@ void Game::close(){
   //TODO add steps to deallocate all rendered textures
   images[1]->free();
   images[2]->free();
+  images[3]->free();
 
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
@@ -82,6 +89,7 @@ void Game::run(){
   game_init();
   images[1] = new Image(renderer);
   images[2] = new Image(renderer);
+  images[3] = new Image(renderer);
   info inf;
 
   int right_cont = 0, left_cont = 0;
@@ -93,6 +101,7 @@ void Game::run(){
   std::pair<int,int> pos; pos.first =240;pos.second = 100;
 
   bool jumping = false;
+  bool attacking = false;
 
   if(load_media()){
     bool quit_event = false;
@@ -100,9 +109,12 @@ void Game::run(){
     SDL_Event e;
     SDL_Rect ret; SDL_Rect* rt = &ret;
     SDL_Rect ret_2; SDL_Rect* rt_2 = &ret_2;
+    SDL_Rect ret_attack;
+    SDL_Rect* rt_a = &ret_attack;
 
     ret.x = 0; ret.y = 0; ret.w = 108; ret.h = 140;
     ret_2.x = 0; ret_2.y = 0; ret_2.w = 800; ret_2.h = 600;
+    ret_attack.x = 0, ret_attack.y = 0; ret_attack.w = 418; ret_attack.h = 224;
 
     while(!quit_event){
       while(SDL_PollEvent( &e ) != 0){
@@ -139,7 +151,11 @@ void Game::run(){
         if(pos.second >= 250){
           jumping = true;
         }
-      }
+      } else if(currentKeyStates[SDL_SCANCODE_SPACE]){
+          attacking = true;
+        }
+
+
 
       //jumping
       if(jumping && pos.second >= 250){
@@ -154,13 +170,23 @@ void Game::run(){
         pos.second += 10;
       }
 
+      //atacking
+      if(attacking){
 
+          ret_attack.y = -74;
+          ret_attack.x = -418;
 
+      }
 
       SDL_SetRenderDrawColor(renderer,0xFF, 0xFF, 0xFF, 0xFF);
       SDL_RenderClear(renderer);
       images[2]->render(0,0,rt_2);
-      images[1]->render(pos.first,pos.second,rt);
+      if(attacking){
+        images[3]->render(pos.first,pos.second,rt_a);
+        attacking = false;
+      } else {
+        images[1]->render(pos.first,pos.second,rt);
+      }
       SDL_RenderPresent(renderer);
     }
   }
