@@ -101,7 +101,10 @@ void Game::run(){
   std::pair<int,int> pos; pos.first =240;pos.second = 100;
 
   bool jumping = false;
+  bool walking_left = false;
+  bool walking_rigth = false;
   bool attacking = false;
+  bool crouching = false;
 
   if(load_media()){
     bool quit_event = false;
@@ -123,8 +126,51 @@ void Game::run(){
         }
       }
       const Uint8* currentKeyStates = SDL_GetKeyboardState( NULL );
-      if( currentKeyStates[ SDL_SCANCODE_LEFT ] ){
 
+      if( currentKeyStates[ SDL_SCANCODE_LEFT ] ){
+        walking_left = true;
+      } else {
+        walking_left = false;
+      }
+
+      if( currentKeyStates[ SDL_SCANCODE_RIGHT ] ){
+        walking_rigth = true;
+      } else {
+        walking_rigth = false;
+      }
+
+
+      if(currentKeyStates[SDL_SCANCODE_UP] && !jumping){
+        if(pos.second >= 250){
+          jumping = true;
+        }
+      }
+
+      if(currentKeyStates[SDL_SCANCODE_SPACE]){
+          attacking = true;
+        }
+
+      if(currentKeyStates[SDL_SCANCODE_DOWN]){
+          crouching = true;
+        } else {
+          crouching = false;
+        }
+
+      //Crouching
+      if(crouching && walking_rigth == false && walking_left == false){
+        left_cont++;
+        if(left_cont == 5){
+          if(ret.y == 140) ret.y = 0;
+          ret.x+=108;
+          if(ret.x == 864) ret.x = 0;
+          left_cont = 0;
+
+        }
+      }
+
+
+      //Walking LEFT
+      if(walking_left == true && walking_rigth == false){
         right_cont++;
         if(right_cont == 5){
           if(ret.y == 0) ret.y = 140;
@@ -136,7 +182,9 @@ void Game::run(){
           if(pos.first < 0) pos.first = 700;
         }
       }
-      else if( currentKeyStates[ SDL_SCANCODE_RIGHT ] ){
+
+      //Walking RIGHT
+      if(walking_rigth == true && walking_left == false){
         left_cont++;
         if(left_cont == 5){
           if(ret.y == 140) ret.y = 0;
@@ -147,14 +195,7 @@ void Game::run(){
           pos.first += 20;
           if(pos.first > 700) pos.first = 0;
         }
-      } else if(currentKeyStates[SDL_SCANCODE_UP] && !jumping){
-        if(pos.second >= 250){
-          jumping = true;
-        }
-      } else if(currentKeyStates[SDL_SCANCODE_SPACE]){
-          attacking = true;
-        }
-
+      }
 
 
       //jumping
