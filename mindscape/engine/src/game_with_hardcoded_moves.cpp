@@ -51,6 +51,7 @@ bool Game::load_media(){
   std::string path_1 = "../assets/images/menina_correndo.png";
   std::string path_2 = "../assets/images/test_background.png";
   std::string path_3 = "../assets/images/attack.png";
+  std::string path_4 = "../assets/images/raposa_correndo.png";
 
   if(!images[1]->load(path_1.c_str())){
     printf("Failed to load media at %s\n",path_1.c_str());
@@ -67,6 +68,11 @@ bool Game::load_media(){
     success_on_load = false;
   }
 
+  if(!images[4]->load(path_4.c_str())){
+    printf("Failed to load media at %s\n", path_4.c_str());
+    success_on_load = false;
+  }
+
   return success_on_load;
 }
 
@@ -75,6 +81,7 @@ void Game::close(){
   images[1]->free();
   images[2]->free();
   images[3]->free();
+  images[4]->free();
 
   SDL_DestroyRenderer(renderer);
   SDL_DestroyWindow(window);
@@ -90,6 +97,7 @@ void Game::run(){
   images[1] = new Image(renderer);
   images[2] = new Image(renderer);
   images[3] = new Image(renderer);
+  images[4] = new Image(renderer);
   info inf;
 
   int right_cont = 0, left_cont = 0;
@@ -99,6 +107,9 @@ void Game::run(){
   inf.width = 192;
   inf.height = 192;
   std::pair<int,int> pos; pos.first =240;pos.second = 100;
+  std::pair<int, int> pos_fox;
+  pos_fox.first = pos.first - 120;
+  pos_fox.second = pos.second + 70;
 
   bool jumping = false;
   bool walking_left = false;
@@ -115,7 +126,11 @@ void Game::run(){
     SDL_Rect ret_attack;
     SDL_Rect* rt_a = &ret_attack;
 
+    SDL_Rect ret_fox;
+    SDL_Rect *rt_fox = &ret_fox;
+
     ret.x = 0; ret.y = 0; ret.w = 192; ret.h = 192;
+    ret_fox.x = 0; ret_fox.y = 0; ret_fox.w = 120; ret_fox.h = 120;
     ret_2.x = 0; ret_2.y = 0; ret_2.w = 1024; ret_2.h = 576;
     ret_attack.x = 0, ret_attack.y = 0; ret_attack.w = 418; ret_attack.h = 224;
 
@@ -188,13 +203,18 @@ void Game::run(){
         left_cont++;
         if(left_cont == 5){
           if(ret.y == 140) ret.y = 0;
+          if(ret_fox.y == 120) ret_fox.y = 0;
           ret.x+=192;
+          ret_fox.x += 120;
           if(ret.x == 1728) ret.x = 0;
+          if(ret_fox.x == 1080) ret_fox.x = 0;
           left_cont = 0;
 
           pos.first += 20;
+          pos_fox.first = pos.first - 110;
+          pos_fox.second = pos.second +70;
           if(pos.first > 1024) pos.first = -192;
-
+          if(pos_fox.first > 1024) pos_fox.first = -192;
         }
       }
 
@@ -210,6 +230,7 @@ void Game::run(){
       //gravity
       if(pos.second < 260){
         pos.second += 10;
+        pos_fox.second = pos.second + 70;
       }
 
       //atacking
@@ -223,6 +244,8 @@ void Game::run(){
       SDL_SetRenderDrawColor(renderer,0xFF, 0xFF, 0xFF, 0xFF);
       SDL_RenderClear(renderer);
       images[2]->render(0,0,rt_2);
+      images[4]->render(pos_fox.first,pos_fox.second,rt_fox);
+
       if(attacking){
         images[3]->render(pos.first,pos.second,rt_a);
         attacking = false;
