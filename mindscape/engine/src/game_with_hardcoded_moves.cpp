@@ -48,8 +48,8 @@ void Game::game_init(){
 
 bool Game::load_media(){
   bool success_on_load = true;
-  std::string path_1 = "../assets/images/scott.png";
-  std::string path_2 = "../assets/images/background.png";
+  std::string path_1 = "../assets/images/menina_correndo.png";
+  std::string path_2 = "../assets/images/test_background.png";
   std::string path_3 = "../assets/images/attack.png";
 
   if(!images[1]->load(path_1.c_str())){
@@ -96,8 +96,8 @@ void Game::run(){
 
   inf.x = 0;
   inf.y = 0;
-  inf.width = 108;
-  inf.height = 140;
+  inf.width = 192;
+  inf.height = 192;
   std::pair<int,int> pos; pos.first =240;pos.second = 100;
 
   bool jumping = false;
@@ -115,8 +115,8 @@ void Game::run(){
     SDL_Rect ret_attack;
     SDL_Rect* rt_a = &ret_attack;
 
-    ret.x = 0; ret.y = 0; ret.w = 108; ret.h = 140;
-    ret_2.x = 0; ret_2.y = 0; ret_2.w = 800; ret_2.h = 600;
+    ret.x = 0; ret.y = 0; ret.w = 192; ret.h = 192;
+    ret_2.x = 0; ret_2.y = 0; ret_2.w = 1024; ret_2.h = 576;
     ret_attack.x = 0, ret_attack.y = 0; ret_attack.w = 418; ret_attack.h = 224;
 
     while(!quit_event){
@@ -161,8 +161,8 @@ void Game::run(){
         left_cont++;
         if(left_cont == 5){
           if(ret.y == 140) ret.y = 0;
-          ret.x+=108;
-          if(ret.x == 864) ret.x = 0;
+          ret.x+=192;
+          if(ret.x == 1728) ret.x = 0;
           left_cont = 0;
 
         }
@@ -171,16 +171,16 @@ void Game::run(){
 
       //Walking LEFT
       if(walking_left == true && walking_rigth == false){
-        right_cont++;
-        if(right_cont == 5){
-          if(ret.y == 0) ret.y = 140;
-          ret.x -= 108;
-          if(ret.x < 0) ret.x = 756;
-          right_cont = 0;
+        //right_cont++;
+        //if(right_cont == 5){
+          //if(ret.y == 0) ret.y = 140;
+          //ret.x -= 108;
+          //if(ret.x < 0) ret.x = 756;
+          //right_cont = 0;
 
-          pos.first -= 20;
-          if(pos.first < 0) pos.first = 700;
-        }
+          //pos.first -= 20;
+       //   if(pos.first < 0) pos.first = 700;
+        //}
       }
 
       //Walking RIGHT
@@ -188,12 +188,13 @@ void Game::run(){
         left_cont++;
         if(left_cont == 5){
           if(ret.y == 140) ret.y = 0;
-          ret.x+=108;
-          if(ret.x == 864) ret.x = 0;
+          ret.x+=192;
+          if(ret.x == 1728) ret.x = 0;
           left_cont = 0;
 
           pos.first += 20;
-          if(pos.first > 700) pos.first = 0;
+          if(pos.first > 1024) pos.first = -192;
+
         }
       }
 
@@ -207,7 +208,7 @@ void Game::run(){
       }
 
       //gravity
-      if(pos.second < 350){
+      if(pos.second < 260){
         pos.second += 10;
       }
 
