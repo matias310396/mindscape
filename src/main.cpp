@@ -43,7 +43,7 @@ int main(int,char**){
 
   Image* images4 = new Image(game.renderer, "../assets/images/raposa_correndo_direita.png", true, std::make_pair(0, 0), 2);
   Image* images5 = new Image(game.renderer, "../assets/images/raposa_correndo_esquerda.png", false, std::make_pair(0, 0), 2);
-  Image* images6 = new Image(game.renderer, "../assets/images/plataformaTESTE.png", true, std::make_pair(0,0), 2);
+  Image* images6 = new Image(game.renderer, "../assets/images/plataforma.png", true, std::make_pair(0,0), 2);
 
 
   images1-> set_values(std::make_pair(192, 192), std::make_pair(192, 192), std::make_pair(0, 0));
@@ -60,7 +60,6 @@ int main(int,char**){
   images3-> set_values(std::make_pair(192, 192), std::make_pair(192, 192), std::make_pair(0, 0));
   images4-> set_values(std::make_pair(120, 120), std::make_pair(120, 120), std::make_pair(0, 0));
   images5-> set_values(std::make_pair(120, 120), std::make_pair(120, 120), std::make_pair(0, 0));
-  images6-> set_values(std::make_pair(507, 256), std::make_pair(507, 256), std::make_pair(0, 0));
 
 
   GameObject* teste_girl;
@@ -82,8 +81,9 @@ int main(int,char**){
   background3->add_component(images8);
   background4->add_component(images7);
 
-  GameObject* platform = new Platform("platform", std::make_pair(400, 250), 2);
-  Hitbox* hitbox= new Hitbox("hitbox", platform->position, std::make_pair(70,35), std::make_pair(270,10));
+  images6-> set_values(std::make_pair(507, 256), std::make_pair(507, 256), std::make_pair(0, 0));
+  GameObject* platform = new Platform("platform", std::make_pair(800, 300), 2);
+  Hitbox* hitbox= new Hitbox("hitbox", platform->position, std::make_pair(40,70), std::make_pair(400,30), game.renderer);
   platform->add_component(hitbox);
   fox->add_component(images4);
   fox->add_component(images5);

@@ -8,8 +8,6 @@ void Fox::on_event(GameEvent game_event){
   Image* moving_right_image = dynamic_cast<Image*>(images[0]);
   Image* moving_left_image = dynamic_cast<Image*>(images[1]);
 
-  std::cout << position.first << std::endl;
-
   if(abs(position.first - 512) <= 50){
     velocity = 10;
   }else if(abs(position.first - 512) > 50 && abs(position.first -512) < 200){

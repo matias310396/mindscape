@@ -9,6 +9,7 @@
 #include "text.hpp"
 #include "event_handler.hpp"
 #include "scene.hpp"
+#include "hitbox.hpp"
 
 namespace engine{
 

@@ -83,11 +83,15 @@ void Game::run(){
 
     SDL_Event e;
     EventHandler event_handler = EventHandler();
+    Time::init();
+
     while(!quit_event){
 
       unsigned now = Time::time_elapsed();
       event_handler.dispatch_pending_events(now);
+      Time::update_delta();
       actual_scene->run_collisions();
+      actual_scene->update(Time::get_delta());
       SDL_SetRenderDrawColor(renderer,0xAA, 0xAA, 0xAA, 0xAA);
 
       SDL_RenderClear(renderer);
