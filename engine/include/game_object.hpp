@@ -25,7 +25,6 @@ namespace engine {
   class GameObject{
     private:
       StateMap states;
-      std::vector<Hitbox*> hitboxes;
 
       void run_collisions(GameObject *);
 
@@ -43,6 +42,7 @@ namespace engine {
       std::vector<Component*> audios;
       std::vector<Component*> images;
       std::vector<Component*> texts;
+      std::vector<Hitbox*> hitboxes;
       std::vector<Component*> animations;
       std::pair<float,float> position;
       std::map<KeyboardEvent::Key, std::string> translations;

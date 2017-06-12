@@ -84,7 +84,7 @@ engine::GameObject* GameObjectFactory::fabricate_little_girl(){
   );
 
   engine::GameObject* little_girl = new engine::LittleGirl("little_girl", place, 52);
-  engine::Hitbox* hitbox= new engine::Hitbox("hitbox", little_girl->position, std::make_pair(60, 180), std::make_pair(50,5), game.renderer);
+  engine::Hitbox* hitbox= new engine::Hitbox("hitbox", little_girl->position, std::make_pair(60, 180), std::make_pair(50,20), game.renderer);
 
   little_girl->collidable = true;
   little_girl->add_component(image_running_right);
