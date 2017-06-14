@@ -16,10 +16,11 @@ namespace game {
   class Thorn : public engine::GameObject {
     public:
 
-      Thorn(std::pair<int, int> position, int priority){
-        GameObject("Thorn", position, priority, {});
-      }
-
+      Thorn(std::string p_name, std::pair<int, int> position, int p): engine::GameObject(p_name, position, p,
+      {
+        {engine::KeyboardEvent::LEFT,"MOVE_LEFT"},
+        {engine::KeyboardEvent::RIGHT,"MOVE_RIGHT"},
+      }){};
       ~Thorn(){};
 
       void update();

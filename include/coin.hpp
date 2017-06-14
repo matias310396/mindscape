@@ -1,5 +1,5 @@
-#ifndef SONIC_H
-#define SONIC_H
+#ifndef COIN_H
+#define COIN_H
 
 
 #include <iostream>
@@ -16,9 +16,11 @@ namespace game {
   class Coin : public engine::GameObject {
     public:
 
-      Coin(std::pair<int, int> position, int priority){
-        GameObject("Coin", position, priority, {});
-      };
+      Coin(std::string p_name, std::pair<int, int> position, int p): engine::GameObject(p_name, position, p,
+      {
+        {engine::KeyboardEvent::LEFT,"MOVE_LEFT"},
+        {engine::KeyboardEvent::RIGHT,"MOVE_RIGHT"},
+      }){};
 
       ~Coin(){};
 

@@ -6,9 +6,8 @@ void Background::on_event(GameEvent game_event){
 
   std::string event_name = game_event.game_event_name;
   Image* ref0 = dynamic_cast<Image*>(images[0]);
-
   if(event_name == "MOVE_LEFT"){
-    ref0->coordinatesOnTexture.first -= paralax;
+    ref0->coordinatesOnTexture.first -= 2;
 
     if(ref0->coordinatesOnTexture.first < 0){
       ref0->coordinatesOnTexture.first = 0;
@@ -18,10 +17,10 @@ void Background::on_event(GameEvent game_event){
     }
 
   }else if(event_name == "MOVE_RIGHT"){
-    ref0->coordinatesOnTexture.first += paralax;
+    ref0->coordinatesOnTexture.first += 2;
 
-    if(ref0->coordinatesOnTexture.first > 1728){
-      ref0->coordinatesOnTexture.first = 1728;
+    if(ref0->coordinatesOnTexture.first > 5000){
+      ref0->coordinatesOnTexture.first = 5000;
       GameObject::on_limit_of_level = true;
     } else {
       GameObject::on_limit_of_level = false;

@@ -15,6 +15,7 @@
 #include "../include/fox.hpp"
 #include "../include/select_arrow.hpp"
 #include "../include/button.hpp"
+#include "../include/coin.hpp"
 
 using namespace engine;
 
@@ -30,20 +31,24 @@ int main(int,char**){
   Image* images3 = new Image(game.renderer, "../assets/images/plataforma.png", true, std::make_pair(0,0), 2);
   Image* images4 = new Image(game.renderer, "../assets/images/individual-level.jpg", true, std::make_pair(0, 0),1);
   Image* images5 = new Image(game.renderer, "../assets/images/plataforma.png", false, std::make_pair(0,0), 2);
+  Image* images6 = new Image(game.renderer, "../assets/images/coin.png", true, std::make_pair(0,0), 2);
 
   images1-> set_values(std::make_pair(192, 192), std::make_pair(192, 192), std::make_pair(0, 0));
   images2-> set_values(std::make_pair(192, 192), std::make_pair(192, 192), std::make_pair(0, 0));
   images3-> set_values(std::make_pair(507, 256), std::make_pair(507, 256), std::make_pair(0, 0));
   images4-> set_values(std::make_pair(1024, 578), std::make_pair(5084, 704), std::make_pair(0, 0));
-
+  images6-> set_values(std::make_pair(50, 50), std::make_pair(278, 236), std::make_pair(0,0));
   //GameObjects variables
+
   mindscape::GameObjectFactory mindscape_factory = mindscape::GameObjectFactory();
   Background* background = new Background("background", std::make_pair(0,0), 1);
   GameObject* platform = new Platform("platform", std::make_pair(800, 300), 2);
   GameObject* platform2 = new Platform("platform2", std::make_pair(0, 470), 2);
   GameObject* little_girl = mindscape_factory.fabricate(mindscape::GameObjectFactory::LITTLE_GIRL);
+  GameObject* coin = new game::Coin("coin", std::make_pair(850, 320), 2);
   Hitbox* hitbox = new Hitbox("hitbox", platform->position, std::make_pair(40,70), std::make_pair(400,30), game.renderer);
   Hitbox* hitbox2 = new Hitbox("hitbox2", platform2->position, std::make_pair(40,70), std::make_pair(4000,30), game.renderer);
+  std::cout << "O objeto eh: " << coin->name << " " << coin->active_game_object << std::endl;
 
   // Adding Components
   platform->add_component(hitbox);
@@ -52,19 +57,25 @@ int main(int,char**){
   platform2->add_component(hitbox2);
   platform->add_component(hitbox);
   background->add_component(images4);
-
+  coin->add_component(images6);
 
   // Adding objects to level
+
   Level* level1 = new Level();
   level1->add_object(little_girl);
+  level1->add_object(coin);
   level1->add_object(background);
   level1->add_object(platform);
   level1->add_object(platform2);
   level1->activate_game_object("little_girl");
+  level1->activate_game_object("coin");
   level1->activate_game_object("background");
   level1->activate_game_object("platform");
   level1->activate_game_object("platform2");
   level1->activate_game_object("ground");
+  for(auto object : level1->objects){
+    printf("%s and %d\n", object->name.c_str(), object->active_game_object);
+  }
 
   game.add_scene("first level", level1);
   game.change_scene("first level");
