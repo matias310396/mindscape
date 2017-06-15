@@ -9,6 +9,7 @@ void LittleGirl::on_collision(GameObject* other, Hitbox* p_my_hitbox, Hitbox* p_
   Platform* p = dynamic_cast<Platform *>(other);
   Hitbox* my_hitbox = dynamic_cast<Hitbox *>(p_my_hitbox);
   Hitbox* other_hitbox = dynamic_cast<Hitbox *>(p_other_hitbox);
+  std::cout << "Colidindo com: " << other->name << std::endl;
   if(state == "FALLING" && p){
     on_floor = true;
     speed.second = 0;

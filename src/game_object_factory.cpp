@@ -1,56 +1,40 @@
 #include "game_object_factory.hpp"
 
-using namespace mindscape;
+using namespace game;
 
-engine::GameObject* GameObjectFactory::fabricate(
-  GameObjectFactory::Options option,
-  std::pair<int, int> coordinates,
-  int priority){
-
-  switch(option){
-    case(GameObjectFactory::LITTLE_GIRL):
-      return fabricate_little_girl();
-    case(GameObjectFactory::FOX):
-      return fabricate_fox();
-    case(GameObjectFactory::PLATFORM):
-      return fabricate_little_girl();
-    case(GameObjectFactory::BUTTON):
-      return fabricate_button();
-    case(GameObjectFactory::BACKGROUND):
-      return fabricate_background();
-    case(GameObjectFactory::SELECT_ARROW):
-      return fabricate_select_arrow();
-    default:
-      return NULL;
+engine::GameObject* GameObjectFactory::fabricate(std::string name, std::pair<int, int> position, std::string object_name=""){
+  if(name == "little_girl"){
+    return fabricate_little_girl(position, object_name);
+  }else if(name == "thorn"){
+    return fabricate_thorn(position, object_name);
+  }else if(name == "coin"){
+    return fabricate_coin(position, object_name);
+  }else{
+    return NULL;
   }
 }
 
-engine::GameObject* GameObjectFactory::fabricate_platform(){
-  std::cout << "NOT IMPLEMENTED YET" << std::endl;
-  return NULL;
+engine::GameObject* GameObjectFactory::fabricate_thorn(std::pair<int, int> position, std::string object_name){
+  engine::Game& game = engine::Game::get_instance();
+  engine::Image* thorn_image = new engine::Image(game.renderer, "../assets/images/thorn.png", true, std::make_pair(0,0), 2);
+  thorn_image-> set_values(std::make_pair(144, 109), std::make_pair(144, 109), std::make_pair(0,0));
+
+  engine::GameObject* thorn = new Thorn(object_name, position, 2);
+  thorn->add_component(thorn_image);
+  return thorn;
 }
 
-engine::GameObject* GameObjectFactory::fabricate_background(){
-  std::cout << "NOT IMPLEMENTED YET" << std::endl;
-  return NULL;
+engine::GameObject* GameObjectFactory::fabricate_coin(std::pair<int, int> position, std::string object_name){
+  engine::Game& game = engine::Game::get_instance();
+  engine::Image* coin_image = new engine::Image(game.renderer, "../assets/images/coin.png", true, std::make_pair(0,0), 2);
+  coin_image-> set_values(std::make_pair(50, 50), std::make_pair(278, 236), std::make_pair(0,0));
+
+  engine::GameObject* coin = new game::Coin(object_name, position, 2);
+  coin->add_component(coin_image);
+  return coin;
 }
 
-engine::GameObject* GameObjectFactory::fabricate_button(){
-  std::cout << "NOT IMPLEMENTED YET" << std::endl;
-  return NULL;
-}
-
-engine::GameObject* GameObjectFactory::fabricate_select_arrow(){
-  std::cout << "NOT IMPLEMENTED YET" << std::endl;
-  return NULL;
-}
-
-engine::GameObject* GameObjectFactory::fabricate_fox(){
-  std::cout << "NOT IMPLEMENTED YET" << std::endl;
-  return NULL;
-}
-
-engine::GameObject* GameObjectFactory::fabricate_little_girl(){
+engine::GameObject* GameObjectFactory::fabricate_little_girl(std::pair<int, int>, std::string object_name){
   engine::Game& game = engine::Game::get_instance();
 
   std::pair<int, int> place (416, 335);

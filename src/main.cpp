@@ -15,6 +15,7 @@
 #include "../include/fox.hpp"
 #include "../include/select_arrow.hpp"
 #include "../include/button.hpp"
+#include "../include/thorn.hpp"
 #include "../include/coin.hpp"
 
 using namespace engine;
@@ -32,23 +33,29 @@ int main(int,char**){
   Image* images4 = new Image(game.renderer, "../assets/images/individual-level.jpg", true, std::make_pair(0, 0),1);
   Image* images5 = new Image(game.renderer, "../assets/images/plataforma.png", false, std::make_pair(0,0), 2);
   Image* images6 = new Image(game.renderer, "../assets/images/coin.png", true, std::make_pair(0,0), 2);
+  Image* images7 = new Image(game.renderer, "../assets/images/thorn.png", true, std::make_pair(0,0), 2);
 
   images1-> set_values(std::make_pair(192, 192), std::make_pair(192, 192), std::make_pair(0, 0));
   images2-> set_values(std::make_pair(192, 192), std::make_pair(192, 192), std::make_pair(0, 0));
   images3-> set_values(std::make_pair(507, 256), std::make_pair(507, 256), std::make_pair(0, 0));
   images4-> set_values(std::make_pair(1024, 578), std::make_pair(5084, 704), std::make_pair(0, 0));
   images6-> set_values(std::make_pair(50, 50), std::make_pair(278, 236), std::make_pair(0,0));
+  images7-> set_values(std::make_pair(144, 109), std::make_pair(144, 109), std::make_pair(0,0));
+
   //GameObjects variables
 
-  mindscape::GameObjectFactory mindscape_factory = mindscape::GameObjectFactory();
+  game::GameObjectFactory sonic_factory = game::GameObjectFactory();
   Background* background = new Background("background", std::make_pair(0,0), 1);
   GameObject* platform = new Platform("platform", std::make_pair(800, 300), 2);
   GameObject* platform2 = new Platform("platform2", std::make_pair(0, 470), 2);
-  GameObject* little_girl = mindscape_factory.fabricate(mindscape::GameObjectFactory::LITTLE_GIRL);
+  GameObject* little_girl = sonic_factory.fabricate("little_girl", std::make_pair(0,0), "");
   GameObject* coin = new game::Coin("coin", std::make_pair(850, 320), 2);
+
+  // Ground y is 431
+  GameObject* thorn = new game::Thorn("thorn", std::make_pair(1200, 431), 2);
+
   Hitbox* hitbox = new Hitbox("hitbox", platform->position, std::make_pair(40,70), std::make_pair(400,30), game.renderer);
   Hitbox* hitbox2 = new Hitbox("hitbox2", platform2->position, std::make_pair(40,70), std::make_pair(4000,30), game.renderer);
-  std::cout << "O objeto eh: " << coin->name << " " << coin->active_game_object << std::endl;
 
   // Adding Components
   platform->add_component(hitbox);
@@ -58,6 +65,7 @@ int main(int,char**){
   platform->add_component(hitbox);
   background->add_component(images4);
   coin->add_component(images6);
+  thorn->add_component(images7);
 
   // Adding objects to level
 
@@ -67,8 +75,10 @@ int main(int,char**){
   level1->add_object(background);
   level1->add_object(platform);
   level1->add_object(platform2);
+  level1->add_object(thorn);
   level1->activate_game_object("little_girl");
   level1->activate_game_object("coin");
+  level1->activate_game_object("thorn");
   level1->activate_game_object("background");
   level1->activate_game_object("platform");
   level1->activate_game_object("platform2");
