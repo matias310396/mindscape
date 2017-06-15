@@ -32,15 +32,15 @@ int main(int,char**){
   Image* images3 = new Image(game.renderer, "../assets/images/plataforma.png", true, std::make_pair(0,0), 2);
   Image* images4 = new Image(game.renderer, "../assets/images/individual-level.jpg", true, std::make_pair(0, 0),1);
   Image* images5 = new Image(game.renderer, "../assets/images/plataforma.png", false, std::make_pair(0,0), 2);
-  Image* images6 = new Image(game.renderer, "../assets/images/coin.png", true, std::make_pair(0,0), 2);
-  Image* images7 = new Image(game.renderer, "../assets/images/thorn.png", true, std::make_pair(0,0), 2);
+  // Image* images6 = new Image(game.renderer, "../assets/images/coin.png", true, std::make_pair(0,0), 2);
+  // Image* images7 = new Image(game.renderer, "../assets/images/thorn.png", true, std::make_pair(0,0), 2);
 
   images1-> set_values(std::make_pair(192, 192), std::make_pair(192, 192), std::make_pair(0, 0));
   images2-> set_values(std::make_pair(192, 192), std::make_pair(192, 192), std::make_pair(0, 0));
   images3-> set_values(std::make_pair(507, 256), std::make_pair(507, 256), std::make_pair(0, 0));
   images4-> set_values(std::make_pair(1024, 578), std::make_pair(5084, 704), std::make_pair(0, 0));
-  images6-> set_values(std::make_pair(50, 50), std::make_pair(278, 236), std::make_pair(0,0));
-  images7-> set_values(std::make_pair(144, 109), std::make_pair(144, 109), std::make_pair(0,0));
+  // images6-> set_values(std::make_pair(50, 50), std::make_pair(278, 236), std::make_pair(0,0));
+  // images7-> set_values(std::make_pair(144, 109), std::make_pair(144, 109), std::make_pair(0,0));
 
   //GameObjects variables
 
@@ -49,10 +49,10 @@ int main(int,char**){
   GameObject* platform = new Platform("platform", std::make_pair(800, 300), 2);
   GameObject* platform2 = new Platform("platform2", std::make_pair(0, 470), 2);
   GameObject* little_girl = sonic_factory.fabricate("little_girl", std::make_pair(0,0), "");
-  GameObject* coin = new game::Coin("coin", std::make_pair(850, 320), 2);
+  // GameObject* coin = new game::Coin("coin", std::make_pair(850, 320), 2);
 
   // Ground y is 431
-  GameObject* thorn = new game::Thorn("thorn", std::make_pair(1200, 431), 2);
+  // GameObject* thorn = new game::Thorn("thorn", std::make_pair(1200, 431), 2);
 
   Hitbox* hitbox = new Hitbox("hitbox", platform->position, std::make_pair(40,70), std::make_pair(400,30), game.renderer);
   Hitbox* hitbox2 = new Hitbox("hitbox2", platform2->position, std::make_pair(40,70), std::make_pair(4000,30), game.renderer);
@@ -64,9 +64,10 @@ int main(int,char**){
   platform2->add_component(hitbox2);
   platform->add_component(hitbox);
   background->add_component(images4);
-  coin->add_component(images6);
-  thorn->add_component(images7);
-
+  // coin->add_component(images6);
+  // thorn->add_component(images7);
+  GameObject* thorn = sonic_factory.fabricate("thorn", std::make_pair(1200, 431), "thorn");
+  GameObject* coin = sonic_factory.fabricate("coin", std::make_pair(850, 320), "coin");
   // Adding objects to level
 
   Level* level1 = new Level();

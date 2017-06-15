@@ -20,7 +20,9 @@ engine::GameObject* GameObjectFactory::fabricate_thorn(std::pair<int, int> posit
   thorn_image-> set_values(std::make_pair(144, 109), std::make_pair(144, 109), std::make_pair(0,0));
 
   engine::GameObject* thorn = new Thorn(object_name, position, 2);
+  engine::Hitbox* hitbox= new engine::Hitbox("hitbox", thorn->position, std::make_pair(0, 0), std::make_pair(120, 109), game.renderer);
   thorn->add_component(thorn_image);
+  thorn->add_component(hitbox);
   return thorn;
 }
 
@@ -30,7 +32,9 @@ engine::GameObject* GameObjectFactory::fabricate_coin(std::pair<int, int> positi
   coin_image-> set_values(std::make_pair(50, 50), std::make_pair(278, 236), std::make_pair(0,0));
 
   engine::GameObject* coin = new game::Coin(object_name, position, 2);
+  engine::Hitbox* hitbox= new engine::Hitbox("hitbox", coin->position, std::make_pair(0, 0), std::make_pair(50, 50), game.renderer);
   coin->add_component(coin_image);
+  coin->add_component(hitbox);
   return coin;
 }
 
@@ -68,12 +72,14 @@ engine::GameObject* GameObjectFactory::fabricate_little_girl(std::pair<int, int>
   );
 
   engine::GameObject* little_girl = new engine::LittleGirl("little_girl", place, 52);
-  engine::Hitbox* hitbox= new engine::Hitbox("hitbox", little_girl->position, std::make_pair(60, 180), std::make_pair(50,20), game.renderer);
+  engine::Hitbox* hitbox= new engine::Hitbox("hitbox", little_girl->position, std::make_pair(60, 180), std::make_pair(50,40), game.renderer);
+  engine::Hitbox* dorso= new engine::Hitbox("dorso", little_girl->position, std::make_pair(60, 150), std::make_pair(50,40), game.renderer);
 
   little_girl->collidable = true;
   little_girl->add_component(image_running_right);
   little_girl->add_component(image_running_left);
   little_girl->add_component(hitbox);
+  little_girl->add_component(dorso);
 
   return little_girl;
 }
