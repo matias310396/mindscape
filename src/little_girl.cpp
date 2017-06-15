@@ -2,19 +2,45 @@
 #include "../include/platform.hpp"
 #include <typeinfo>
 #include <algorithm>
+#include <fstream>
 
 using namespace engine;
 
 void LittleGirl::on_collision(GameObject* other, Hitbox* p_my_hitbox, Hitbox* p_other_hitbox){
-  Platform* p = dynamic_cast<Platform *>(other);
   Hitbox* my_hitbox = dynamic_cast<Hitbox *>(p_my_hitbox);
   Hitbox* other_hitbox = dynamic_cast<Hitbox *>(p_other_hitbox);
-  std::cout << "Colidindo com: " << other->name << std::endl;
-  if(state == "FALLING" && p){
+
+  if(state == "FALLING" && dynamic_cast<Platform *>(other)){
     on_floor = true;
     speed.second = 0;
     position.second = other_hitbox->get_coordinates().second-180;
     state = "GROUND";
+  }
+
+  if(dynamic_cast<game::Thorn *>(other)){
+    printf("COLIDI COM THORN\n");
+    std::fstream record("../assets/doc/record.txt");
+    std::string aux;
+    getline(record, aux);
+    record.close();
+    if(coin_count > std::stoi(aux, nullptr)){
+      for(int i=0; i<10; ++i) printf("%d\n", coin_count);
+      // std::ofstream supp("../assets/doc/supp.txt");
+      std::fstream record("../assets/doc/record.txt");
+      record << std::to_string(coin_count);
+      // supp << aux;
+      // std::remove("../assets/doc/record.txt");
+      // std::rename("../assets/doc/supp.txt", "record.txt");
+    }
+
+    printf("RECORDE: %s", aux.c_str());
+    record.close();
+    exit(EXIT_SUCCESS);
+  }
+
+  if(dynamic_cast<game::Coin *>(other)){
+    coin_count++;
+    printf("Moedas: %d\n", coin_count);
   }
 }
 

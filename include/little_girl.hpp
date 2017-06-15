@@ -7,6 +7,8 @@
 #include "../engine/include/game_object.hpp"
 #include "../engine/include/keyboard_event.hpp"
 #include "../engine/include/image.hpp"
+#include "coin.hpp"
+#include "thorn.hpp"
 #include <iostream>
 #include <vector>
 #include <string>
