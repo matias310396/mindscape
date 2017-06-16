@@ -25,12 +25,8 @@ void LittleGirl::on_collision(GameObject* other, Hitbox* p_my_hitbox, Hitbox* p_
     record.close();
     if(coin_count > std::stoi(aux, nullptr)){
       for(int i=0; i<10; ++i) printf("%d\n", coin_count);
-      // std::ofstream supp("../assets/doc/supp.txt");
       std::fstream record("../assets/doc/record.txt");
       record << std::to_string(coin_count);
-      // supp << aux;
-      // std::remove("../assets/doc/record.txt");
-      // std::rename("../assets/doc/supp.txt", "record.txt");
     }
 
     printf("RECORDE: %s", aux.c_str());
@@ -41,6 +37,8 @@ void LittleGirl::on_collision(GameObject* other, Hitbox* p_my_hitbox, Hitbox* p_
   if(dynamic_cast<game::Coin *>(other)){
     coin_count++;
     printf("Moedas: %d\n", coin_count);
+    p_other_hitbox->deactivate();
+    other->images.front()->deactivate();
   }
 }
 

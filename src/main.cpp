@@ -1,5 +1,6 @@
 #include <iostream>
 #include <unordered_map>
+#include <fstream>
 #include <string>
 #include "../include/platform.hpp"
 #include "../include/game_object_factory.hpp"
@@ -22,6 +23,10 @@ using namespace engine;
 
 int main(int,char**){
   // Game variables
+  std::fstream record("../assets/doc/record.txt");
+  std::string aux;
+  getline(record, aux);
+
   Game& game = Game::get_instance();
   game.set_information(globals::game_name,globals::window_size);
   game.game_init();
@@ -39,6 +44,7 @@ int main(int,char**){
   images2-> set_values(std::make_pair(192, 192), std::make_pair(192, 192), std::make_pair(0, 0));
   images3-> set_values(std::make_pair(507, 256), std::make_pair(507, 256), std::make_pair(0, 0));
   images4-> set_values(std::make_pair(1024, 578), std::make_pair(5084, 704), std::make_pair(0, 0));
+  Text* p_record = new Text("Recorde: " + aux, "../assets/fonts/FFF_Tusj.ttf", 35, game.renderer);
   // images6-> set_values(std::make_pair(50, 50), std::make_pair(278, 236), std::make_pair(0,0));
   // images7-> set_values(std::make_pair(144, 109), std::make_pair(144, 109), std::make_pair(0,0));
 
@@ -49,6 +55,8 @@ int main(int,char**){
   GameObject* platform = new Platform("platform", std::make_pair(800, 300), 2);
   GameObject* platform2 = new Platform("platform2", std::make_pair(0, 470), 2);
   GameObject* little_girl = sonic_factory.fabricate("little_girl", std::make_pair(0,0), "");
+
+  GameObject* previous_record = new GameObject("previous_record", std::make_pair(10,0), 2, {{}});
   // GameObject* coin = new game::Coin("coin", std::make_pair(850, 320), 2);
 
   // Ground y is 431
@@ -57,12 +65,14 @@ int main(int,char**){
   Hitbox* hitbox = new Hitbox("hitbox", platform->position, std::make_pair(40,70), std::make_pair(400,30), game.renderer);
   Hitbox* hitbox2 = new Hitbox("hitbox2", platform2->position, std::make_pair(40,70), std::make_pair(4000,30), game.renderer);
 
+
   // Adding Components
   platform->add_component(hitbox);
   platform->add_component(images3);
   platform2->add_component(images5);
   platform2->add_component(hitbox2);
   platform->add_component(hitbox);
+  previous_record->add_component(p_record);
   background->add_component(images4);
   // coin->add_component(images6);
   // thorn->add_component(images7);
@@ -77,9 +87,11 @@ int main(int,char**){
   level1->add_object(platform);
   level1->add_object(platform2);
   level1->add_object(thorn);
+  level1->add_object(previous_record);
   level1->activate_game_object("little_girl");
   level1->activate_game_object("coin");
   level1->activate_game_object("thorn");
+  level1->activate_game_object("previous_record");
   level1->activate_game_object("background");
   level1->activate_game_object("platform");
   level1->activate_game_object("platform2");
