@@ -18,25 +18,20 @@ void LittleGirl::on_collision(GameObject* other, Hitbox* p_my_hitbox, Hitbox* p_
   }
 
   if(dynamic_cast<game::Thorn *>(other)){
-    printf("COLIDI COM THORN\n");
     std::fstream record("../assets/doc/record.txt");
     std::string aux;
     getline(record, aux);
     record.close();
     if(coin_count > std::stoi(aux, nullptr)){
-      for(int i=0; i<10; ++i) printf("%d\n", coin_count);
       std::fstream record("../assets/doc/record.txt");
       record << std::to_string(coin_count);
     }
-
-    printf("RECORDE: %s", aux.c_str());
     record.close();
     exit(EXIT_SUCCESS);
   }
 
   if(dynamic_cast<game::Coin *>(other)){
     coin_count++;
-    printf("Moedas: %d\n", coin_count);
     p_other_hitbox->deactivate();
     other->images.front()->deactivate();
   }
@@ -44,7 +39,6 @@ void LittleGirl::on_collision(GameObject* other, Hitbox* p_my_hitbox, Hitbox* p_
 
 void LittleGirl::update(unsigned delta){
   if(!on_floor) speed.second += 0.02 * delta;
-  // printf("speed: %f\n", speed.second);
   if(speed.second > 1){
     speed.second = 1;
   }

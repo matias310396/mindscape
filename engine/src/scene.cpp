@@ -10,6 +10,7 @@ bool compare_scene(engine::GameObject* a, GameObject* b){
 void Scene::add_object(engine::GameObject* object){
   objects.push_back(object);
   sort(objects.begin(), objects.end(), compare_scene);
+  activate_game_object(object->name);
 }
 
 void Scene::activate_game_object(std::string game_object_name){

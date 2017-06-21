@@ -9,9 +9,23 @@ engine::GameObject* GameObjectFactory::fabricate(std::string name, std::pair<int
     return fabricate_thorn(position, object_name);
   }else if(name == "coin"){
     return fabricate_coin(position, object_name);
+  }else if(name == "platform"){
+    return fabricate_platform(position, object_name);
   }else{
     return NULL;
   }
+}
+
+engine::GameObject* GameObjectFactory::fabricate_platform(std::pair<int, int> position, std::string object_name){
+  engine::Game& game = engine::Game::get_instance();
+  engine::Image* platform_image = new engine::Image(game.renderer, "../assets/images/plataforma.png", true, std::make_pair(0,0), 2);
+  platform_image-> set_values(std::make_pair(507, 256), std::make_pair(507, 256), std::make_pair(0, 0));
+
+  engine::GameObject* platform = new engine::Platform(object_name, position, 2);
+  engine::Hitbox* hitbox = new engine::Hitbox("hitbox", platform->position, std::make_pair(40,70), std::make_pair(400,30), game.renderer);
+  platform->add_component(platform_image);
+  platform->add_component(hitbox);
+  return platform;
 }
 
 engine::GameObject* GameObjectFactory::fabricate_thorn(std::pair<int, int> position, std::string object_name){
